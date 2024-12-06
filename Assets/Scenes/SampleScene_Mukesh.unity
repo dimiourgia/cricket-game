@@ -546,7 +546,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitBallsCountText: {fileID: 0}
-  totalBallsCountText: {fileID: 0}
+  TotalBallsCountText: {fileID: 0}
+  TM_upperImage: {fileID: 0}
+  TM_lowerImage: {fileID: 0}
+  TM_fillerImage: {fileID: 0}
 --- !u!114 &522918589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1022,7 +1025,7 @@ GameObject:
   - component: {fileID: 1258238575}
   m_Layer: 0
   m_Name: Bat
-  m_TagString: Untagged
+  m_TagString: Bat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
