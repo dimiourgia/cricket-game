@@ -31,7 +31,6 @@
 //    }
 //}
 
-
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -50,14 +49,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private int rollCount = 0;
-    private readonly int maxRolls = 10;
-
-    public int ballsPlayed { get; private set; }
-    public int ballsHit { get; private set; }
-
-    public Transform pointA;
-    public Transform pointB;
+    private Bowler bowler;
 
     private void Awake()
     {
@@ -70,41 +62,41 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        ballsPlayed = 0;
-        ballsHit = 0;
-        UIManager.Instance.updateHitCount();
-        UIManager.Instance.updateTotalCount();
-        UIManager.Instance.updateTimingMeter(5.0f);
     }
 
-    public bool CanRoll()
+    private void Start()
     {
-        return rollCount < maxRolls;
-    }
-
-    public void BallRolled()
-    {
-        rollCount++;
-        ballsPlayed++;
-        UIManager.Instance.updateTotalCount();
-        Debug.Log($"Roll count incremented. Current roll count: {rollCount}");
-
-        if (rollCount >= maxRolls)
+        bowler = FindObjectOfType<Bowler>();
+        if (bowler == null)
         {
-            Debug.Log("Game over. Maximum rolls reached.");
+            Debug.LogError("Bowler is not found in the scene.");
+        }
+
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.updateHitCount(bowler.ballsHit); // Fetch ballsHit from Bowler
+            UIManager.Instance.updateTotalCount(bowler.ballsPlayed); // Fetch ballsPlayed from Bowler
+        }
+        else
+        {
+            Debug.LogError("UIManager.Instance is null.");
         }
     }
 
-    public void BallHit()
+    public void NotifyBallRolled()
     {
-        ballsHit++;
-        UIManager.Instance.updateHitCount();
-        Debug.Log($"Ball hit count incremented. Total hits: {ballsHit}");
+        bowler.BallRolled(); // Inform Bowler that a ball was rolled
+        UpdateUI(); // Update the UI after the ball roll
     }
 
-    public int GetRollCount()
+    public void NotifyBallHit()
     {
-        return rollCount;
+        bowler.BallHit(); // Inform Bowler that a ball was hit
+        UpdateUI(); // Update the UI after the ball hit
     }
 }
