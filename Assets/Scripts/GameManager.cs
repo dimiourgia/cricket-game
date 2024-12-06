@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private GameManager _instance;
+    private static GameManager _instance;
 
-    public GameManager Instance {
+    public static GameManager Instance {
         get
         {
             if(_instance == null)
@@ -22,5 +22,10 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         _instance = this;
+        ballsPlayed = 0;
+        ballsHit = 0;
+        UIManager.Instance.updateHitCount();
+        UIManager.Instance.updateTotalCount();
+        UIManager.Instance.updateTimingMeter(5.0f);
     }
 }
