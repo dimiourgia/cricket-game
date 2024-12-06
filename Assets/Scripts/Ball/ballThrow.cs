@@ -69,13 +69,13 @@ public class BallThrow : MonoBehaviour
         if (isHit)
         {
             Debug.Log("Hit confirmed at Point B. Incrementing ballsHit and rolling back to Point A.");
-            bowler.BallHit();
+            //bowler.BallHit();
             RollBackToPointA();
         }
         else
         {
             Debug.Log("Missed at Point B. Incrementing ballsPlayed and respawning ball.");
-            bowler.BallRolled();
+            //bowler.BallRolled();
             StopMovement();
             VanishBall();
         }
@@ -115,11 +115,11 @@ public class BallThrow : MonoBehaviour
     {
         bowler.BallRolled();
 
-        if (bowler.GetRollCount() % 3 == 0)
-        {
-            ballSpeed += speedIncrement;
-            Debug.Log($"Ball speed increased to: {ballSpeed}");
-        }
+        //if (bowler.GetRollCount() % 3 == 0)
+        //{
+        //    ballSpeed += speedIncrement;
+        //    Debug.Log($"Ball speed increased to: {ballSpeed}");
+        //}
     }
 
     private void StopMovement()

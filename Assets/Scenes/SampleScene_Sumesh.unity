@@ -792,8 +792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7acb367ec30b17c49aaef4edf9dc690e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointA: {fileID: 1844153491}
-  pointB: {fileID: 1263819250}
+  MaxBallsToRoll: 10
 --- !u!4 &1038418262
 Transform:
   m_ObjectHideFlags: 0
