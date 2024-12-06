@@ -11,15 +11,24 @@ public class BallThrow : MonoBehaviour
     public float ballSpeed = 10f;
     public float speedIncrement = 2f;
 
+    private Bowler bowler;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        bowler = FindObjectOfType<Bowler>();
+
+        if (bowler == null)
+        {
+            Debug.LogError("Bowler is not found in the scene.");
+        }
+
         ResetBall();
     }
 
     void Update()
     {
-        if (GameManager.Instance.CanRoll())
+        if (bowler != null && bowler.CanRoll())
         {
             if (!isMoving)
             {
@@ -48,8 +57,8 @@ public class BallThrow : MonoBehaviour
 
     private void ResetBall()
     {
-        transform.position = GameManager.Instance.pointA.position;
-        targetPoint = GameManager.Instance.pointB.position;
+        transform.position = bowler.pointA.position;
+        targetPoint = bowler.pointB.position;
         movingToPointB = true;
         isMoving = false;
         Debug.Log("Ball reset to Point A.");
@@ -60,13 +69,13 @@ public class BallThrow : MonoBehaviour
         if (isHit)
         {
             Debug.Log("Hit confirmed at Point B. Incrementing ballsHit and rolling back to Point A.");
-            GameManager.Instance.BallHit();
+            bowler.BallHit();
             RollBackToPointA();
         }
         else
         {
             Debug.Log("Missed at Point B. Incrementing ballsPlayed and respawning ball.");
-            GameManager.Instance.BallRolled(); // Increment roll count as the ball is missed
+            bowler.BallRolled();
             StopMovement();
             VanishBall();
         }
@@ -90,23 +99,23 @@ public class BallThrow : MonoBehaviour
 
     private void RollBackToPointA()
     {
-        targetPoint = GameManager.Instance.pointA.position;
+        targetPoint = bowler.pointA.position;
         movingToPointB = false;
         Debug.Log("Ball is now moving back to Point A.");
     }
 
     private void RollToPointB()
     {
-        targetPoint = GameManager.Instance.pointB.position;
+        targetPoint = bowler.pointB.position;
         movingToPointB = true;
         Debug.Log("Ball is now moving to Point B.");
     }
 
     private void IncrementRollCount()
     {
-        GameManager.Instance.BallRolled();
+        bowler.BallRolled();
 
-        if (GameManager.Instance.GetRollCount() % 3 == 0)
+        if (bowler.GetRollCount() % 3 == 0)
         {
             ballSpeed += speedIncrement;
             Debug.Log($"Ball speed increased to: {ballSpeed}");
@@ -124,9 +133,9 @@ public class BallThrow : MonoBehaviour
         Debug.Log("Ball vanishing...");
         gameObject.SetActive(false);
 
-        GameManager.Instance.BallRolled();
+        bowler.BallRolled();
 
-        if (GameManager.Instance.CanRoll())
+        if (bowler.CanRoll())
         {
             Invoke(nameof(RespawnBall), 1f);
         }
