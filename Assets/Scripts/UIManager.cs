@@ -60,8 +60,6 @@ public class UIManager : MonoBehaviour
         float pitchLenght = 5.0f;
 
         TM_fillerImage.fillAmount = 0.4f;
-
-
     }
 
 }
