@@ -85,6 +85,7 @@ public class Bowler : MonoBehaviour
     private IEnumerator HandleBallHit()
     {
         Debug.Log("Ball hit! Reversing ball direction...");
+        AudioManager.Instance.PlayBallHitSound();
 
         if (currentBall != null)
         {
