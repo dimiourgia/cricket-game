@@ -52,10 +52,51 @@ public class Bowler : MonoBehaviour
         StartCoroutine(HandleBallHit());
     }
 
+    //private IEnumerator HandleBallHit()
+    //{
+    //    Debug.Log("Ball hit! Waiting for 1 second before destroying...");
+    //    yield return new WaitForSeconds(1f);
+
+    //    if (currentBall != null)
+    //    {
+    //        Destroy(currentBall);
+    //    }
+
+    //    GameManager.Instance.BallsHit++;
+    //    Debug.Log($"Balls Hit: {GameManager.Instance.BallsHit}");
+    //    UIManager.Instance.UpdateHitCount();
+
+    //    if (CanRoll())
+    //    {
+    //        if (GameManager.Instance.TotalBallsRolled % 3 == 0)
+    //        {
+    //            ballSpeed += speedIncrement;
+    //            Debug.Log($"Ball speed increased to: {ballSpeed}");
+    //        }
+
+    //        Invoke(nameof(SpawnBall), 2f);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Maximum rolls reached. No more balls.");
+    //    }
+    //}
+
     private IEnumerator HandleBallHit()
     {
-        Debug.Log("Ball hit! Waiting for 1 second before destroying...");
-        yield return new WaitForSeconds(1f);
+        Debug.Log("Ball hit! Reversing ball direction...");
+
+        if (currentBall != null)
+        {
+            Rigidbody ballRigidbody = currentBall.GetComponent<Rigidbody>();
+            if (ballRigidbody != null)
+            {
+                Vector3 currentVelocity = ballRigidbody.linearVelocity;
+                ballRigidbody.linearVelocity = -currentVelocity; 
+            }
+        }
+
+        yield return new WaitForSeconds(1f); 
 
         if (currentBall != null)
         {
