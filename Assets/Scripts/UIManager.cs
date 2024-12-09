@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
     public Image GameCompletePanel;
     public GameObject Retry;
     public GameObject Congratulate;
+    GameObject bowler;
     
 
 
@@ -69,6 +70,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateMissCount()
+    {
+        if (GameManager.Instance.BallsHit + GameManager.Instance.BallsMissed == GameManager.Instance.MaxBallsToRoll)
+        {
+            ShowGameCompletePanel();
+        }
+    }
+
     //should be called when a ball is played...  UIManager.Instance.updateTotalCount();
     public void UpdateTotalCount()
     {
@@ -90,6 +99,9 @@ public class UIManager : MonoBehaviour
 
     public void RestartGame()
     {
+        bowler = GameObject.Find("Bowler");
+       
+
         Debug.Log("restarting game");
         GameManager.Instance.BallsHit = 0;
         GameManager.Instance.BallsMissed = 0;
@@ -97,7 +109,9 @@ public class UIManager : MonoBehaviour
         UpdateHitCount();
         UpdateTotalCount();
         GameCompletePanel.gameObject.SetActive(false);
-        
+
+        bowler.GetComponent<Bowler>().StartGame();
+
     }
 
     private IEnumerator FillTimingMeterOverTime(float timeToFill)
@@ -118,6 +132,11 @@ public class UIManager : MonoBehaviour
     public void FlashBallMissedMessage()
     {
         StartCoroutine(ShowMessageCoroutine());
+    }
+
+    public void FlashBallsHitEncouragementMessage()
+    {
+
     }
 
     private void ShowGameCompletePanel()
