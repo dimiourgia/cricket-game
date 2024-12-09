@@ -38,9 +38,11 @@ public class Bowler : MonoBehaviour
         }
         else
         {
-            Debug.Log("Max Rolls Exceeded");
+            Debug.Log("Max Rolls Exceeded. Restarting the game...");
         }
     }
+
+
 
     public bool CanRoll()
     {
@@ -89,9 +91,9 @@ public class Bowler : MonoBehaviour
 
         if (currentBall != null)
         {
-            Rigidbody ballRigidbody = currentBall.GetComponent<Rigidbody>();
-            if (ballRigidbody != null)
+            if (currentBall.TryGetComponent<Rigidbody>(out var ballRigidbody))
             {
+                Debug.Log("Velcoity change");
                 Vector3 currentVelocity = ballRigidbody.linearVelocity;
                 ballRigidbody.linearVelocity = -currentVelocity; 
             }
@@ -135,6 +137,7 @@ public class Bowler : MonoBehaviour
 
         GameManager.Instance.BallsMissed++;
         Debug.Log($"Balls Missed: {GameManager.Instance.BallsMissed}");
+        UIManager.Instance.UpdateMissCount();
         UIManager.Instance.FlashBallMissedMessage();
 
         if (CanRoll())
