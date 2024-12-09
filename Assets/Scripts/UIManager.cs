@@ -38,6 +38,10 @@ public class UIManager : MonoBehaviour
     public Image TM_upperImage;
     public Image TM_lowerImage;
     public Image TM_fillerImage;
+    public Image GameCompletePanel;
+    public GameObject Retry;
+    public GameObject Congratulate;
+    
 
 
     private float flashMessageDuration = 2.0f;
@@ -58,6 +62,11 @@ public class UIManager : MonoBehaviour
     public void UpdateHitCount()
     {
         HitBallsCountText.text = "" + GameManager.Instance.BallsHit;
+
+        if (GameManager.Instance.BallsHit + GameManager.Instance.BallsMissed == GameManager.Instance.MaxBallsToRoll)
+        {
+            ShowGameCompletePanel();
+        }
     }
 
     //should be called when a ball is played...  UIManager.Instance.updateTotalCount();
@@ -79,6 +88,18 @@ public class UIManager : MonoBehaviour
         StartCoroutine(FillTimingMeterOverTime(timeToTravelPitch));
     }
 
+    public void RestartGame()
+    {
+        Debug.Log("restarting game");
+        GameManager.Instance.BallsHit = 0;
+        GameManager.Instance.BallsMissed = 0;
+        GameManager.Instance.TotalBallsRolled = 0;
+        UpdateHitCount();
+        UpdateTotalCount();
+        GameCompletePanel.gameObject.SetActive(false);
+        
+    }
+
     private IEnumerator FillTimingMeterOverTime(float timeToFill)
     {
         float elapsedTime = 0f;
@@ -97,6 +118,20 @@ public class UIManager : MonoBehaviour
     public void FlashBallMissedMessage()
     {
         StartCoroutine(ShowMessageCoroutine());
+    }
+
+    private void ShowGameCompletePanel()
+    {
+        GameCompletePanel.gameObject.SetActive(true);
+
+        if(GameManager.Instance.BallsHit < 4)
+        {
+            Retry.gameObject.SetActive(true);
+        }
+        else
+        {
+            Congratulate.gameObject.SetActive(true);
+        }
     }
 
     private IEnumerator ShowMessageCoroutine()
