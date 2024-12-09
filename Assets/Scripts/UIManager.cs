@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
     }
 
     //should be called when a ball is played...  UIManager.Instance.updateTotalCount();
-    public void updateTotalCount()
+    public void UpdateTotalCount()
     {
         TotalBallsCountText.text = "/ " + GameManager.Instance.TotalBallsRolled;
     }
