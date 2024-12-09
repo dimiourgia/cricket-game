@@ -30,6 +30,18 @@ public class Bowler : MonoBehaviour
         SpawnBall();
     }
 
+    public void StartGame()
+    {
+        if (CanRoll())
+        {
+            SpawnBall();
+        }
+        else
+        {
+            Debug.Log("Max Rolls Exceeded");
+        }
+    }
+
     public bool CanRoll()
     {
         return GameManager.Instance.TotalBallsRolled < GameManager.Instance.MaxBallsToRoll;
