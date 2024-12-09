@@ -1,13 +1,14 @@
 using UnityEngine;
 
-void Start()
-{
-    Debug.Log("Ready to detect collision");
-}
 
 public class Bat : MonoBehaviour
 {
-    private void OnCollistionEnter(Collision other)
+    void Start()
+    {
+        Debug.Log("ready for collision");
+    }
+
+    public void OnCollisionEnter(Collision other)
     {
 
         Debug.Log("collision detected with " + other.gameObject.name);
@@ -25,7 +26,7 @@ public class Bat : MonoBehaviour
             }
 
 
-            BallThrow ballThrow = other.gameObject.GetComponent<BallThrow>();
+            BallThrow ballThrow = other.gameObject.transform.parent.GetComponent<BallThrow>();
             if (ballThrow != null)
             {
                 ballThrow.BallHit();
