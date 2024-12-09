@@ -1,12 +1,10 @@
+
+
 using UnityEngine;
 
 
 public class Bat : MonoBehaviour
 {
-    void Start()
-    {
-        Debug.Log("ready for collision");
-    }
 
     public void OnCollisionEnter(Collision other)
     {
@@ -18,11 +16,25 @@ public class Bat : MonoBehaviour
 
             // Apply force to the ball
             Rigidbody ballRb = other.gameObject.GetComponent<Rigidbody>();
+            //if (ballRb != null)
+            //{
+            //    Debug.Log("find the Rigidbody");
+            //    Vector3 hitDirection = transform.forward;
+            //    float hitForce = 4f;
+            //    ballRb.AddForce(hitDirection * hitForce, ForceMode.Impulse);
+            //}
+
             if (ballRb != null)
             {
-                Vector3 hitDirection = transform.forward;
-                float hitForce = 10f;
-                ballRb.AddForce(hitDirection * hitForce, ForceMode.Impulse);
+                Debug.Log("Found the Rigidbody");
+
+                // Define an angle for the hit
+                float angle = 30f; // Change to desired angle in degrees
+                Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up); // Rotate around the Y-axis
+                Vector3 hitDirection = rotation * transform.forward; // Apply rotation to forward direction
+
+                float hitForce = 4f;
+                ballRb.AddForce(hitDirection.normalized * hitForce, ForceMode.Impulse);
             }
 
 
