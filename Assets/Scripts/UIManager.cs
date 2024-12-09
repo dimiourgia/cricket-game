@@ -7,10 +7,10 @@ using System.Collections;
 /*
  Exposed Functions: 
  
-updateHitCount()
-updateTotalCount()
-updateTimingMeter(float ballSpeed);
-flashBallMissedMessage()
+UpdateHitCount()
+UpdateTotalCount()
+UpdateTimingMeter(float ballSpeed);
+FlashBallMissedMessage()
 
  */
 
@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
     }
 
     //should be called when player hits ball successfully...  UIManager.Instance.updateHitCount()
-    public void updateHitCount()
+    public void UpdateHitCount()
     {
         HitBallsCountText.text = "" + GameManager.Instance.BallsHit;
     }
@@ -68,13 +68,13 @@ public class UIManager : MonoBehaviour
 
 
     //this will update the timingMeter thingy... should be called whenever a new ball is instantiated
-    public void updateTimingMeter(float ballVelocity)
+    public void UpdateTimingMeter(float ballVelocity)
     {
         //no idea right now
         //assuming a few fixed parameters for now... they should be defined somewhere as constants.. or a way to access them instead of hardcoding here
         float batLength = 1.0f;
-        float pitchLenght = 5.0f;
-        float timeToTravelPitch = pitchLenght / ballVelocity;
+        float pitchLenght = 6.37f;
+        float timeToTravelPitch = (pitchLenght / ballVelocity)+(batLength/ballVelocity);   
 
         StartCoroutine(FillTimingMeterOverTime(timeToTravelPitch));
     }
@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public void flashBallMissedMessage()
+    public void FlashBallMissedMessage()
     {
         StartCoroutine(ShowMessageCoroutine());
     }
