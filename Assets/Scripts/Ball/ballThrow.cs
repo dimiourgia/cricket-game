@@ -21,6 +21,8 @@ public class BallThrow : MonoBehaviour
         ResetBall();
     }
 
+
+
     private void Update()
     {
         if (!isHit)

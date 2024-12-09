@@ -13,6 +13,7 @@ public class Bowler : MonoBehaviour
 
     private void Start()
     {
+
         BallThrow ballThrow = GetComponentInChildren<BallThrow>(true); 
         if (ballThrow != null)
         {
@@ -51,10 +52,10 @@ public class Bowler : MonoBehaviour
 
         GameManager.Instance.BallsHit++;
         Debug.Log($"Balls Hit: {GameManager.Instance.BallsHit}");
+        UIManager.Instance.UpdateHitCount();
 
         if (CanRoll())
         {
-            GameManager.Instance.TotalBallsRolled++;
             if (GameManager.Instance.TotalBallsRolled % 3 == 0)
             {
                 ballSpeed += speedIncrement;
@@ -80,10 +81,11 @@ public class Bowler : MonoBehaviour
 
         GameManager.Instance.BallsMissed++;
         Debug.Log($"Balls Missed: {GameManager.Instance.BallsMissed}");
+        UIManager.Instance.FlashBallMissedMessage();
 
         if (CanRoll())
         {
-            GameManager.Instance.TotalBallsRolled++;
+            
             if (GameManager.Instance.TotalBallsRolled % 3 == 0)
             {
                 ballSpeed += speedIncrement;
@@ -106,6 +108,10 @@ public class Bowler : MonoBehaviour
             return;
         }
 
+        GameManager.Instance.TotalBallsRolled++;
+        UIManager.Instance.UpdateTimingMeter(ballSpeed);
+        UIManager.Instance.UpdateTotalCount();
+
         currentBall = Instantiate(ballPrefab, pointA.position, Quaternion.identity, transform);
         currentBall.SetActive(true);
 
@@ -114,6 +120,7 @@ public class Bowler : MonoBehaviour
         if (ballThrow != null)
         {
             ballThrow.Initialize(this, pointA, pointB, ballSpeed);
+            UIManager.Instance.UpdateTimingMeter(ballSpeed);
         }
         else
         {
