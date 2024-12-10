@@ -7,10 +7,10 @@ using System.Collections;
 /*
  Exposed Functions: 
  
-updateHitCount()
-updateTotalCount()
-updateTimingMeter(float ballSpeed);
-flashBallMissedMessage()
+UpdateHitCount()
+UpdateTotalCount()
+UpdateTimingMeter(float ballSpeed);
+FlashBallMissedMessage()
 
  */
 
@@ -38,6 +38,11 @@ public class UIManager : MonoBehaviour
     public Image TM_upperImage;
     public Image TM_lowerImage;
     public Image TM_fillerImage;
+    public Image GameCompletePanel;
+    public GameObject Retry;
+    public GameObject Congratulate;
+    GameObject bowler;
+    
 
 
     private float flashMessageDuration = 2.0f;
@@ -55,28 +60,58 @@ public class UIManager : MonoBehaviour
     }
 
     //should be called when player hits ball successfully...  UIManager.Instance.updateHitCount()
-    public void updateHitCount()
+    public void UpdateHitCount()
     {
         HitBallsCountText.text = "" + GameManager.Instance.BallsHit;
+
+        if (GameManager.Instance.BallsHit + GameManager.Instance.BallsMissed == GameManager.Instance.MaxBallsToRoll)
+        {
+            ShowGameCompletePanel();
+        }
+    }
+
+    public void UpdateMissCount()
+    {
+        if (GameManager.Instance.BallsHit + GameManager.Instance.BallsMissed == GameManager.Instance.MaxBallsToRoll)
+        {
+            ShowGameCompletePanel();
+        }
     }
 
     //should be called when a ball is played...  UIManager.Instance.updateTotalCount();
-    public void updateTotalCount()
+    public void UpdateTotalCount()
     {
         TotalBallsCountText.text = "/ " + GameManager.Instance.TotalBallsRolled;
     }
 
 
     //this will update the timingMeter thingy... should be called whenever a new ball is instantiated
-    public void updateTimingMeter(float ballVelocity)
+    public void UpdateTimingMeter(float ballVelocity)
     {
         //no idea right now
         //assuming a few fixed parameters for now... they should be defined somewhere as constants.. or a way to access them instead of hardcoding here
         float batLength = 1.0f;
-        float pitchLenght = 5.0f;
-        float timeToTravelPitch = pitchLenght / ballVelocity;
+        float pitchLenght = 6.37f;
+        float timeToTravelPitch = (pitchLenght / ballVelocity)+(batLength/ballVelocity);   
 
         StartCoroutine(FillTimingMeterOverTime(timeToTravelPitch));
+    }
+
+    public void RestartGame()
+    {
+        bowler = GameObject.Find("Bowler");
+       
+
+        Debug.Log("restarting game");
+        GameManager.Instance.BallsHit = 0;
+        GameManager.Instance.BallsMissed = 0;
+        GameManager.Instance.TotalBallsRolled = 0;
+        UpdateHitCount();
+        UpdateTotalCount();
+        GameCompletePanel.gameObject.SetActive(false);
+
+        bowler.GetComponent<Bowler>().StartGame();
+
     }
 
     private IEnumerator FillTimingMeterOverTime(float timeToFill)
@@ -94,9 +129,28 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public void flashBallMissedMessage()
+    public void FlashBallMissedMessage()
     {
         StartCoroutine(ShowMessageCoroutine());
+    }
+
+    public void FlashBallsHitEncouragementMessage()
+    {
+
+    }
+
+    private void ShowGameCompletePanel()
+    {
+        GameCompletePanel.gameObject.SetActive(true);
+
+        if(GameManager.Instance.BallsHit < 4)
+        {
+            Retry.gameObject.SetActive(true);
+        }
+        else
+        {
+            Congratulate.gameObject.SetActive(true);
+        }
     }
 
     private IEnumerator ShowMessageCoroutine()

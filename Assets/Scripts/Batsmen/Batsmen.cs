@@ -4,24 +4,46 @@ using UnityEngine;
 public class Batsmen : MonoBehaviour
 {
     [SerializeField]
-    private Animator hitanim;
+    private Animator hitanim;   
+    private Collider batcollider;
+    private bool isSwing = false;
+    public GameObject Bat;
+
     void Start()
     {
         hitanim = GetComponent<Animator>();
+
+        batcollider = Bat.GetComponent<Collider>();
+        Debug.Log("Collider found: " + batcollider);
+
+        if (batcollider == null)
+        {
+            Debug.LogError("Collider is missing on the bat!");
+        }
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+     
+
+        if (Input.GetKeyDown(KeyCode.Space) && !isSwing)
         {
             StartCoroutine(Batsmenshot());
         }
     }
+
     IEnumerator Batsmenshot()
     {
+        isSwing = true;
         hitanim.SetBool("Shot", true);
-        yield return new WaitForSeconds(1.0f);
+
+
+        // Critical period where the bat can hit the ball
+        yield return new WaitForSeconds(0.5f);
+
+
         hitanim.SetBool("Shot", false);
+        isSwing = false;
     }
 }
