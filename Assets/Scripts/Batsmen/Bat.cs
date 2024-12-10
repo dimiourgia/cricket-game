@@ -14,22 +14,16 @@ public class Bat : MonoBehaviour
         {
             Debug.Log("Bat hit the ball!");
 
-            // Apply force to the ball
+        
             Rigidbody ballRb = other.gameObject.GetComponent<Rigidbody>();
-            //if (ballRb != null)
-            //{
-            //    Debug.Log("find the Rigidbody");
-            //    Vector3 hitDirection = transform.forward;
-            //    float hitForce = 4f;
-            //    ballRb.AddForce(hitDirection * hitForce, ForceMode.Impulse);
-            //}
+
 
             if (ballRb != null)
             {
                 Debug.Log("Found the Rigidbody");
 
                 // Define an angle for the hit
-                float angle = 30f; // Change to desired angle in degrees
+                float angle = 90f; // Change to desired angle in degrees
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up); // Rotate around the Y-axis
                 Vector3 hitDirection = rotation * transform.forward; // Apply rotation to forward direction
 
