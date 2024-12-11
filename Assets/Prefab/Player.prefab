@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitanim: {fileID: 0}
   Bat: {fileID: 1575060055863241281}
+  MoveSpeed: 5
 --- !u!1001 &1808992497212299024
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -203,9 +204,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05e720c49261f9d49a8cb6875f9bdf6a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8759572296877944851}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05e720c49261f9d49a8cb6875f9bdf6a, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1369600153963470884}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05e720c49261f9d49a8cb6875f9bdf6a, type: 3}
       insertIndex: -1
@@ -216,27 +214,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 05e720c49261f9d49a8cb6875f9bdf6a, type: 3}
   m_PrefabInstance: {fileID: 1808992497212299024}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &8759572296877944851
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575060055863241281}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.024047421, y: 0.06699516, z: 0.0226285}
-  m_Center: {x: 0.0003431509, y: -0.0027533167, z: 0.00045287795}
 --- !u!114 &1369600153963470884
 MonoBehaviour:
   m_ObjectHideFlags: 0

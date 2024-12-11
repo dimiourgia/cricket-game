@@ -1,5 +1,5 @@
 
-
+using System.Collections.Specialized;
 using UnityEngine;
 
 
@@ -13,7 +13,6 @@ public class Bat : MonoBehaviour
         if (other.gameObject.tag == "Ball")
         {
             Debug.Log("Bat hit the ball!");
-
         
             Rigidbody ballRb = other.gameObject.GetComponent<Rigidbody>();
 
@@ -25,9 +24,11 @@ public class Bat : MonoBehaviour
                 // Define an angle for the hit
                 float angle = 90f; // Change to desired angle in degrees
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up); // Rotate around the Y-axis
+                Debug.Log(rotation);
                 Vector3 hitDirection = rotation * transform.forward; // Apply rotation to forward direction
 
-                float hitForce = 4f;
+                float hitForce = 6f;
+                Debug.Log("hitting ball" + hitForce);
                 ballRb.AddForce(hitDirection.normalized * hitForce, ForceMode.Impulse);
             }
 

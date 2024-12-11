@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Security.Cryptography;
+using System.Threading;
 using UnityEngine;
 
 public class Batsmen : MonoBehaviour
@@ -8,6 +10,7 @@ public class Batsmen : MonoBehaviour
     private Collider batcollider;
     private bool isSwing = false;
     public GameObject Bat;
+    public float MoveSpeed = 5f;
 
     void Start()
     {
@@ -31,6 +34,10 @@ public class Batsmen : MonoBehaviour
         {
             StartCoroutine(Batsmenshot());
         }
+
+        //float horizontalInput = Input.GetAxis("Horizontal");
+        //Vector3 movement = new Vector3(0, 0, horizontalInput) * MoveSpeed * Time.deltaTime;
+        //transform.Translate(movement);
     }
 
     IEnumerator Batsmenshot()
@@ -41,8 +48,6 @@ public class Batsmen : MonoBehaviour
 
         // Critical period where the bat can hit the ball
         yield return new WaitForSeconds(0.5f);
-
-
         hitanim.SetBool("Shot", false);
         isSwing = false;
     }
