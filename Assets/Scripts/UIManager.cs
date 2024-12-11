@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public Image[] fillers;
     public TMP_Text HitBallsCountText;
     public TMP_Text TotalBallsCountText;
     public TMP_Text BallMissedMessageText;
@@ -41,6 +42,8 @@ public class UIManager : MonoBehaviour
     public Image GameCompletePanel;
     public GameObject Retry;
     public GameObject Congratulate;
+    public Gradient fillColorGradient;
+
     GameObject bowler;
     
 
@@ -114,22 +117,55 @@ public class UIManager : MonoBehaviour
 
     }
 
+    //private IEnumerator FillTimingMeterOverTime(float timeToFill)
+    //{
+    //    float elapsedTime = 0f;
+    //    while(elapsedTime < timeToFill)
+    //    {
+    //        TM_fillerImage.fillAmount = (elapsedTime / timeToFill);
+    //        TM_fillerImage.color = fillColorGradient.Evaluate(elapsedTime / timeToFill);
+    //        elapsedTime += Time.deltaTime;
+
+    //        yield return null;
+    //    }
+
+    //    TM_fillerImage.fillAmount = 0f;
+
+    //}
+
     private IEnumerator FillTimingMeterOverTime(float timeToFill)
     {
         float elapsedTime = 0f;
-        while(elapsedTime < timeToFill)
-        {
-            TM_fillerImage.fillAmount = (elapsedTime / timeToFill);
-            elapsedTime += Time.deltaTime;
+        int totalFillers = fillers.Length;
 
+        while (elapsedTime < timeToFill)
+        {
+            // Calculate progress as a fraction of total time
+            float progress = elapsedTime / timeToFill;
+
+            // Determine how many fillers to activate
+            int fillersToActivate = Mathf.FloorToInt(progress * totalFillers);
+
+            // Enable appropriate fillers
+            for (int i = 0; i < totalFillers; i++)
+            {
+                fillers[i].enabled = i < fillersToActivate;
+            }
+
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        TM_fillerImage.fillAmount = 0f;
+        // Ensure all fillers are enabled at the end
+        foreach (Image filler in fillers)
+        {
+            filler.enabled = false;
+        }
     }
 
 
-    public void FlashBallMissedMessage()
+
+public void FlashBallMissedMessage()
     {
         StartCoroutine(ShowMessageCoroutine());
     }
